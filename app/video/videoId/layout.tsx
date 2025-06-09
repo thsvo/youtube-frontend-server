@@ -3,7 +3,7 @@ export async function generateMetadata({ params }:any) {
 
   try {
     // Fetch video data
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api/video/${videoId}`)
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || "https://download.codeopx.com"}/api/video/${videoId}`)
     const video = await response.json()
 
     return {

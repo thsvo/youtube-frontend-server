@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 export const runtime = 'edge';
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://download.codeopx.com"
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
 
   try {

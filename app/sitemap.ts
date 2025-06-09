@@ -23,7 +23,7 @@ async function getAllSearchQueries(): Promise<string[]> {
 
     // Fallback: Try to fetch from API if file doesn't exist or is empty
     try {
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://download.codeopx.com"
       const response = await fetch(`${API_BASE_URL}/api/search-queries`, {
         next: { revalidate: 3600 } // Cache for 1 hour
       })
@@ -67,7 +67,7 @@ async function getAllSearchQueries(): Promise<string[]> {
  
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://download.codeopx.com"
 
   // Get all search queries
   const searchQueries = await getAllSearchQueries()
