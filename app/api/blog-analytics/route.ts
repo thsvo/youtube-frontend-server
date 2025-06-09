@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+
+export const runtime = 'edge';
 
 interface AnalyticsData {
   postId: number;
@@ -11,6 +11,10 @@ interface AnalyticsData {
   userAgent?: string;
   ip?: string;
 }
+
+// In-memory storage for analytics (for Edge Runtime compatibility)
+// In production, you'd want to use a database or external storage service
+let analyticsStorage: AnalyticsData[] = [];
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,36 +27,13 @@ export async function POST(request: NextRequest) {
       ip: request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown",
     };
 
-    // Ensure data directory exists
-    const dataDir = path.join(process.cwd(), "data");
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
+    // Add new entry to in-memory storage
+    analyticsStorage.push(analyticsEntry);
+
+    // Keep only last 1000 entries to prevent memory issues
+    if (analyticsStorage.length > 1000) {
+      analyticsStorage = analyticsStorage.slice(-1000);
     }
-
-    // Read existing analytics data
-    const analyticsFile = path.join(dataDir, "blog-analytics.json");
-    let analytics: AnalyticsData[] = [];
-
-    if (fs.existsSync(analyticsFile)) {
-      try {
-        const fileContent = fs.readFileSync(analyticsFile, "utf8");
-        analytics = JSON.parse(fileContent);
-      } catch (error) {
-        console.error("Error reading analytics file:", error);
-        analytics = [];
-      }
-    }
-
-    // Add new entry
-    analytics.push(analyticsEntry);
-
-    // Keep only last 1000 entries to prevent file from growing too large
-    if (analytics.length > 1000) {
-      analytics = analytics.slice(-1000);
-    }
-
-    // Write back to file
-    fs.writeFileSync(analyticsFile, JSON.stringify(analytics, null, 2));
 
     return NextResponse.json({ success: true, message: "Analytics data recorded" });
   } catch (error) {
@@ -66,20 +47,11 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const analyticsFile = path.join(process.cwd(), "data", "blog-analytics.json");
-    
-    if (!fs.existsSync(analyticsFile)) {
-      return NextResponse.json({ analytics: [] });
-    }
-
-    const fileContent = fs.readFileSync(analyticsFile, "utf8");
-    const analytics = JSON.parse(fileContent);
-
-    // Return summary statistics
+    // Return summary statistics from in-memory storage
     const summary = {
-      totalViews: analytics.length,
-      uniquePosts: new Set(analytics.map((a: AnalyticsData) => a.postId)).size,
-      recentViews: analytics.slice(-10),
+      totalViews: analyticsStorage.length,
+      uniquePosts: new Set(analyticsStorage.map((a: AnalyticsData) => a.postId)).size,
+      recentViews: analyticsStorage.slice(-10),
     };
 
     return NextResponse.json({ analytics: summary });

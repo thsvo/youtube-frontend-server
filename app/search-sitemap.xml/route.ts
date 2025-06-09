@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+
+export const runtime = 'edge';
 
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
@@ -8,37 +8,19 @@ export async function GET() {
   try {
     let searchQueries: string[] = [];
 
-    // First try to read from the local file system
-    const searchQueriesFile = path.join(process.cwd(), "data", "search-queries.json");
-    
-    if (fs.existsSync(searchQueriesFile)) {
-      try {
-        const fileContent = fs.readFileSync(searchQueriesFile, "utf8");
-        const data = JSON.parse(fileContent);
-        if (data.queries && Array.isArray(data.queries)) {
-          searchQueries = data.queries;
-          console.log("Search sitemap - Found queries from file:", searchQueries);
-        }
-      } catch (error) {
-        console.error("Error reading search queries file:", error);
+    // Try to fetch from API
+    try {
+      const response = await fetch(`${baseUrl}/api/search-queries`, {
+        next: { revalidate: 300 } // Revalidate every 5 minutes
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        searchQueries = data.queries || [];
+        console.log("Search sitemap - Found queries from API:", searchQueries);
       }
-    }
-
-    // Fallback: Try to fetch from API if file doesn't exist
-    if (searchQueries.length === 0) {
-      try {
-        const response = await fetch(`${baseUrl}/api/search-queries`, {
-          next: { revalidate: 300 } // Revalidate every 5 minutes
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          searchQueries = data.queries || [];
-          console.log("Search sitemap - Found queries from API:", searchQueries);
-        }
-      } catch (error) {
-        console.error("Error fetching from API:", error);
-      }
+    } catch (error) {
+      console.error("Error fetching from API:", error);
     }
 
     // Generate XML sitemap for search pages
