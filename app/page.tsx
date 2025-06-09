@@ -78,7 +78,7 @@ export default function HomePage() {
       // Redirect to search page if there's a query in URL
       router.push(`/search/${encodeURIComponent(query)}`);
     } else {
-      document.title = "YouTube Search App";
+      document.title = "Search App";
     }
   }, [searchParams, router]);
 
@@ -101,7 +101,7 @@ export default function HomePage() {
       <Header></Header>
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center justify-center mb-10">
-          <h1 className="text-3xl font-bold mb-6">YouTube Search App</h1>
+          <h1 className="text-3xl font-bold mb-6">CodeOpx Search App</h1>
 
           <form onSubmit={handleSearch} className="w-full max-w-xl flex gap-2">
             <div className="relative flex-1">
@@ -121,7 +121,7 @@ export default function HomePage() {
         {/* Welcome message */}
         {/* <div className="text-center py-12">
           <div className="text-6xl mb-4">🎥</div>
-          <h2 className="text-2xl font-semibold mb-4">Welcome to YouTube Search</h2>
+          <h2 className="text-2xl font-semibold mb-4">Welcome to Codeopx Search</h2>
           <p className="text-muted-foreground max-w-md mx-auto">
             Search for your favorite videos and discover amazing content. 
             Enter a search term above to get started!

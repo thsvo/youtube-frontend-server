@@ -43,7 +43,7 @@ export default async function Image({ params }: { params: { videoId: string } })
             color: "gray",
           }}
         >
-          YouTube Video
+          Codeopx Video
         </div>
       </div>,
       {
@@ -66,7 +66,7 @@ export default async function Image({ params }: { params: { videoId: string } })
           fontWeight: "bold",
         }}
       >
-        YouTube Video
+        Codeopx Video
       </div>,
       {
         width: 1200,

@@ -10,7 +10,7 @@ export async function generateMetadata({ params }:any) {
 
     return {
       title: video.title || "Video Details",
-      description: video.description?.substring(0, 160) || "Watch this YouTube video",
+      description: video.description?.substring(0, 160) || "Watch this Codeopx video",
       openGraph: {
         title: video.title,
         description: video.description?.substring(0, 160),
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }:any) {
   } catch (error) {
     return {
       title: "Video Details",
-      description: "Watch this YouTube video",
+      description: "Watch this Codeopx video",
     }
   }
 }

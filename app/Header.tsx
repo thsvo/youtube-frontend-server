@@ -156,7 +156,7 @@ function MobileNav({ setIsOpen }: { setIsOpen: (open: boolean) => void }) {
             strokeWidth="16"
           />
         </svg>
-        <span className="font-bold">YouTube Search</span>
+        <span className="font-bold">Codeopx Search</span>
       </Link>
       <div className="flex flex-col space-y-3">
         <Link

@@ -10,10 +10,10 @@ export async function generateMetadata({ params }: SearchLayoutProps): Promise<M
   
   return {
     title: `"${searchTerm}" - Search Results`,
-    description: `Search results for "${searchTerm}" on YouTube Search App`,
+    description: `Search results for "${searchTerm}" on CodeOpx Search App`,
     openGraph: {
       title: `"${searchTerm}" - Search Results`,
-      description: `Search results for "${searchTerm}" on YouTube Search App`,
+      description: `Search results for "${searchTerm}" on CodeOpx Search App`,
     },
   };
 }

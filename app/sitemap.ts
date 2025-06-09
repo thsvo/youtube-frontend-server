@@ -38,7 +38,7 @@ async function getAllSearchQueries(): Promise<string[]> {
       console.error("Error fetching search queries from API:", error)
     }
 
-    // Fallback: Common/popular search terms for your YouTube app
+    // Fallback: Common/popular search terms for your Codeopx app
     const popularSearchTerms = [
       "music",
       "gaming",

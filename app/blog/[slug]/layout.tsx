@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: BlogPostLayoutProps): Promise
 
   // Fallback metadata
   return {
-    title: "Blog Post | YouTube Search App",
+    title: "Blog Post | CodeOpx Search App",
     description: "Read our latest blog post with insights and tutorials.",
   };
 }
