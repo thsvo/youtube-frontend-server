@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Header } from "./Header";
 import Image from "next/image";
+import axios from "axios";
 
 interface BlogPost {
   ID: number;
@@ -41,15 +42,10 @@ export default function HomePage() {
   const fetchBlogPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
+      const response = await axios.get(
         "https://wordpress.codeopx.com/wp-json/custom/v1/posts/"
       );
-      if (response.ok) {
-        const posts = await response.json();
-        setBlogPosts(posts);
-      } else {
-        console.error("Failed to fetch blog posts");
-      }
+      setBlogPosts(response.data);
     } catch (error) {
       console.error("Error fetching blog posts:", error);
     } finally {
@@ -63,12 +59,8 @@ export default function HomePage() {
     if (searchQuery.trim()) {
       // Track the search query for sitemap generation
       try {
-        await fetch("/api/search-queries", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ query: searchQuery.trim() }),
+        await axios.post("/api/search-queries", {
+          query: searchQuery.trim(),
         });
       } catch (trackingError) {
         // Don't fail the search if tracking fails
