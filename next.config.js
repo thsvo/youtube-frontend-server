@@ -1,7 +1,7 @@
 const nextConfig = {
   images: {
     // Allow images from localhost and a specific backend domain
-    domains: ["wordpress.codeopx.com"],
+    domains: ["wordpress.codeopx.com", "server.abheen.com"],
     remotePatterns: [
       {
         protocol: "http",
