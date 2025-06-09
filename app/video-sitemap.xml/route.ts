@@ -21,20 +21,29 @@ export async function GET() {
 `
 
     // Add each video to the sitemap
-    videos.forEach((video) => {
+    interface Video {
+      _id: string
+      thumbnail: string
+      title: string
+      description: string
+      videoId: string
+      createdAt: string
+    }
+
+    (videos as Video[]).forEach((video: Video) => {
       xml += `
-  <url>
-    <loc>${baseUrl}/video/${video._id}</loc>
-    <video:video>
-      <video:thumbnail_loc>${API_BASE_URL}${video.thumbnail}</video:thumbnail_loc>
-      <video:title>${escapeXml(video.title)}</video:title>
-      <video:description>${escapeXml(video.description.substring(0, 2048))}</video:description>
-      <video:player_loc>https://www.youtube.com/watch?v=${video.videoId}</video:player_loc>
-      <video:publication_date>${new Date(video.createdAt).toISOString()}</video:publication_date>
-      <video:family_friendly>yes</video:family_friendly>
-      <video:live>no</video:live>
-    </video:video>
-  </url>`
+      <url>
+        <loc>${baseUrl}/video/${video._id}</loc>
+        <video:video>
+          <video:thumbnail_loc>${API_BASE_URL}${video.thumbnail}</video:thumbnail_loc>
+          <video:title>${escapeXml(video.title)}</video:title>
+          <video:description>${escapeXml(video.description.substring(0, 2048))}</video:description>
+          <video:player_loc>https://www.youtube.com/watch?v=${video.videoId}</video:player_loc>
+          <video:publication_date>${new Date(video.createdAt).toISOString()}</video:publication_date>
+          <video:family_friendly>yes</video:family_friendly>
+          <video:live>no</video:live>
+        </video:video>
+      </url>`
     })
 
     xml += `

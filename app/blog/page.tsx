@@ -65,7 +65,7 @@ export default function BlogLandingPage() {
         // Extract unique categories
         const allCategories = postsWithUUID.flatMap((post: BlogPost) => post.categories);
         const uniqueCategories = Array.from(new Set(allCategories));
-        setCategories(uniqueCategories);
+        setCategories(uniqueCategories as string[]);
       } else {
         console.error('Failed to fetch blog posts');
       }
