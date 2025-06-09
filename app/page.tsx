@@ -42,12 +42,11 @@ export default function HomePage() {
   const fetchBlogPosts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        "https://wordpress.codeopx.com/wp-json/custom/v1/posts/"
-      );
+      const response = await axios.get("/api/blog-posts");
       setBlogPosts(response.data);
     } catch (error) {
       console.error("Error fetching blog posts:", error);
+      setBlogPosts([]); // Set empty array on error to prevent undefined issues
     } finally {
       setLoading(false);
     }
